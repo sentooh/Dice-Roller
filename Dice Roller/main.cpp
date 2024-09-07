@@ -1,5 +1,7 @@
 #include <iostream> 
 #include "dice_roller.h"
+#include <cstdlib> // For system()
+#include <limits>  // For std::numeric_limits
 
 using namespace std;
 
@@ -7,32 +9,54 @@ using namespace std;
 int getValidNumRolls()
 {
     int numRolls;
-    cout << "Enter the number of dice to roll: ";
-    cin >> numRolls;
 
-    // Validate the number of rolls
-    if (numRolls <= 0)
+    while (true)
     {
-        cerr << "Error: The number of rolls must be greater than zero!" << endl;
-        return -1; // Return error value
-    }
+        cout << "Enter the number of dice to roll: ";
+        cin >> numRolls;
 
-    return numRolls;
+        // Check if the input was invalid (i.e., not an integer)
+        if (cin.fail())
+        {
+            cin.clear(); // Clear the error flag on cin
+            cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Ignore invalid input
+            cout << "Error: Please enter a valid number!" << endl;
+        }
+        // Validate the number of rolls
+        else if (numRolls <= 0)
+        {
+            cerr << "Error: The number of rolls must be greater than zero!" << endl;
+        }
+        else
+        {
+            return numRolls; // Valid input, return the number of rolls
+        }
+    }
 }
 
 // Function to get a valid dice type from the user
 string getValidDiceType(DiceRoller& diceRoller) 
 {
     string diceType;
-    cout << "Enter the type of dice you want to roll (d4, d6, d8, d10, d12, d20, d100): ";
-    cin >> diceType;
 
-    // Validate the dice type
-    if (!diceRoller.isValidDiceType(diceType))
+    // Keep asking for input until a valid dice type is entered
+    while (true)
     {
-        return ""; // Return an empty string to indicate an error
-    }
+        cout << "Enter the type of dice you want to roll (d4, d6, d8, d10, d12, d20, d100): ";
+        cin >> diceType;
 
+        // Validate the dice type
+        if (!diceRoller.isValidDiceType(diceType))
+        {
+            cout << "Invalid dice type! Please enter a valid dice type (d4, d6, d8, d10, d12, d20, d100)." << endl;
+        }
+
+        else 
+        {
+            break; // Exit the loop when a valid dice type is entered
+        }
+    }
+    
     return diceType;
 }
 

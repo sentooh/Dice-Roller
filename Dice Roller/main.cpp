@@ -100,20 +100,20 @@ void clearScreen()
 // Function to pause execution until the user presses a key
 void waitForUserInput()
 {
-    cout << "Pres any key to exit..." << endl;
+    cout << "Press any key to exit..." << endl;
     cin.ignore();  // Discard any leftover characters in the input buffer
     cin.get();     // Wait for the user to press a key
 }
 
 int main() 
 {
-    DiceRoller diceRoller; // Create a DiceRoller object
+    DiceRoller DiceRoller; // Create a DiceRoller object
     bool rollAgain = true; // Flag to control the loop
 
     while (rollAgain)
     {
         // Get valid dice type from the user
-        string diceType = getValidDiceType(diceRoller);
+        string diceType = getValidDiceType(DiceRoller);
         if (diceType.empty())
         {
             return 1; // Exit on invalid input
@@ -127,7 +127,7 @@ int main()
         }
 
         // Roll the dice and display the results
-        diceRoller.rollDice(diceType, numRolls);
+        DiceRoller.rollDice(diceType, numRolls);
 
         // Ask if the user wants to roll again
         rollAgain = askToRollAgain();
